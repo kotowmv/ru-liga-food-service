@@ -5,10 +5,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.OrderDTO;
 
-@Tag(name = "API для создания заказов")
+@Tag(name = "API для взаимодействия с курьерами")
 @RestController
-@RequestMapping("/order")
-public class OrderController {
+@RequestMapping("/delivery")
+public class DeliveryController {
 
     @Operation(summary = "Получить заказ по ID")
     @GetMapping("/{id}")
@@ -16,22 +16,17 @@ public class OrderController {
         return new OrderDTO();
     }
 
-    @Operation(summary = "Обновить все данные заказа по ID")
-    @PutMapping("/update/{id}")
-    public OrderDTO updateOrderById(@RequestBody OrderDTO dto, @PathVariable(value = "id", required = true) int id) {
+    @Operation(summary = "Изменить ID курьера")
+    @PatchMapping("/{id}/{courier_id}")
+    public OrderDTO updateOrderCourierById(@PathVariable(value = "id", required = true) int id,
+                                           @PathVariable("courier_id") int courier_id) {
         return new OrderDTO();
     }
 
     @Operation(summary = "Изменить статус заказа")
     @PatchMapping("/{id}/{status}")
     public OrderDTO updateOrderStatusById(@PathVariable(value = "id", required = true) int id,
-                                        @PathVariable("status") String status) {
-        return new OrderDTO();
-    }
-
-    @Operation(summary = "Создать новый заказ")
-    @PostMapping("/create")
-    public OrderDTO createOrder(@RequestBody OrderDTO orderDto) {
+                                          @PathVariable("status") String status) {
         return new OrderDTO();
     }
 
