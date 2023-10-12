@@ -21,6 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <snakeyaml.version>2.2</snakeyaml.version>
+        <openapi.version>1.7.0</openapi.version>
     </properties>
 
     <dependencyManagement>
@@ -48,9 +49,10 @@
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>2.0.0</version>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${openapi.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
