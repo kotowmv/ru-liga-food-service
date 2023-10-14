@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ru.liga</groupId>
+        <artifactId>dependency-bom</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../dependency-bom/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>migration</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <propertyFile>src/main/resources/database/liquibase.properties</propertyFile>
+        <changeLogFile>src/main/resources/database/changelog.xml</changeLogFile>
+        <dataDir>src/main/resources/database/data</dataDir>
+        <verbose>false</verbose>
+        <logging>debug</logging>
+        <changelogSchemaName>public</changelogSchemaName>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.9.1</version>
+                <configuration>
+                    <!-- Схема БД -->
+                    <changelogSchemaName>${changelogSchemaName}</changelogSchemaName>
+                    <!-- Файл с настройками для подключения к БД -->
+                    <propertyFile>${propertyFile}</propertyFile>
+                    <!-- Расположение главного changelog -->
+                    <changeLogFile>${changeLogFile}</changeLogFile>
+                    <!-- Указывает каталог, в котором будут храниться CSV-файлы c данными insert -->
+                    <dataDir>${dataDir}</dataDir>
+                    <!-- Log  -->
+                    <verbose>${verbose}</verbose>
+                    <logging>${logging}</logging>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

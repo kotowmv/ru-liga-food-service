@@ -23,6 +23,7 @@
 		<module>notification-service</module>
 		<module>delivery-service</module>
 		<module>dependency-bom</module>
+		<module>migration</module>
 	</modules>
 
 </project>

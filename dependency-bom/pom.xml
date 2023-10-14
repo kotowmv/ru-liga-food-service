@@ -22,6 +22,8 @@
         <java.version>11</java.version>
         <snakeyaml.version>2.2</snakeyaml.version>
         <openapi.version>1.7.0</openapi.version>
+        <postgresql.version>42.3.8</postgresql.version>
+        <liquibase-core.version>4.11.0</liquibase-core.version>
     </properties>
 
     <dependencyManagement>
@@ -52,7 +54,17 @@
                 <artifactId>springdoc-openapi-ui</artifactId>
                 <version>${openapi.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase-core.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

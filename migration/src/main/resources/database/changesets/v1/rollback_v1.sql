@@ -1,0 +1,18 @@
+-- DROPS --
+
+DROP TABLE IF EXISTS couriers CASCADE;
+DROP TABLE IF EXISTS customers CASCADE;
+DROP TABLE IF EXISTS restaurants CASCADE;
+DROP TABLE IF EXISTS menu_items CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS order_items CASCADE;
+
+DROP TABLE IF EXISTS databasechangelog;
+DROP TABLE IF EXISTS databasechangeloglock;
+
+DROP SEQUENCE IF EXISTS couriers_id_seq;
+DROP SEQUENCE IF EXISTS customers_id_seq;
+DROP SEQUENCE IF EXISTS restaurants_id_seq;
+DROP SEQUENCE IF EXISTS menu_items_id_seq;
+DROP SEQUENCE IF EXISTS orders_id_seq;
+DROP SEQUENCE IF EXISTS order_items_id_seq;

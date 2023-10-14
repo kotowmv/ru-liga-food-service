@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- LOCAL CHANGELOG v2  -->
+    <changeSet id="v2 2023-14-11 20:00:00" author="kotowmv">
+
+        <sqlFile path="fill_data_v2.sql" relativeToChangelogFile="true"/>
+        <!-- relativeToChangelogFile - позволяет указывать путь относительно той папки, где лежит changelog -->
+
+        <rollback>
+            <sqlFile path="rollback_v2.sql" relativeToChangelogFile="true"/>
+        </rollback>
+
+    </changeSet>
+
+</databaseChangeLog>
