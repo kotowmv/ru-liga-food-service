@@ -15,12 +15,13 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <propertyFile>src/main/resources/database/liquibase.properties</propertyFile>
+        <propertyFile>src/main/resources/database/local/liquibase.properties</propertyFile>
         <changeLogFile>src/main/resources/database/changelog.xml</changeLogFile>
         <dataDir>src/main/resources/database/data</dataDir>
         <verbose>false</verbose>
         <logging>debug</logging>
         <changelogSchemaName>public</changelogSchemaName>
+        <liquibase.rollbackCount>2</liquibase.rollbackCount>
     </properties>
 
     <dependencies>

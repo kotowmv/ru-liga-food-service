@@ -1,8 +1,6 @@
 -- CREATES --
 
-CREATE SEQUENCE menu_items_id_seq
-INCREMENT 1
-START WITH 1;
+CREATE SEQUENCE menu_items_id_seq;
 
 CREATE TABLE IF NOT EXISTS menu_items
 (

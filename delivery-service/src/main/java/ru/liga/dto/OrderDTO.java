@@ -1,61 +1,26 @@
 package ru.liga.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 @Schema(description = "DTO заказа")
+@Data
 public class OrderDTO {
-private int id;
-private int customer_id;
-private int restoraunt_id;
-private String status;
-private int courier_id;
-private String timestamp;
+    @Schema(description = "Идентификатор заказа")
+    private int id;
 
-public int getId() {
-    return id;
-}
+    @Schema(description = "Идентификатор клиента")
+    private int customerId;
 
-public void setId(int id) {
-    this.id = id;
-}
+    @Schema(description = "Идентификатор ресторана")
+    private int restaurantId;
 
-public int getCustomer_id() {
-    return customer_id;
-}
+    @Schema(description = "Статус заказа")
+    private String status;
 
-public void setCustomer_id(int customer_id) {
-    this.customer_id = customer_id;
-}
+    @Schema(description = "Идентификатор курьера")
+    private int courierId;
 
-public int getRestoraunt_id() {
-    return restoraunt_id;
-}
-
-public void setRestoraunt_id(int restoraunt_id) {
-    this.restoraunt_id = restoraunt_id;
-}
-
-public String getStatus() {
-    return status;
-}
-
-public void setStatus(String status) {
-    this.status = status;
-}
-
-public int getCourier_id() {
-    return courier_id;
-}
-
-public void setCourier_id(int courier_id) {
-    this.courier_id = courier_id;
-}
-
-public String getTimestamp() {
-    return timestamp;
-}
-
-public void setTimestamp(String timestamp) {
-    this.timestamp = timestamp;
-}
+    @Schema(description = "Дата и время заказа")
+    private String timestamp;
 }

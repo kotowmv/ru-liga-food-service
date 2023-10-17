@@ -1,8 +1,6 @@
 -- CREATES --
 
-CREATE SEQUENCE customers_id_seq
-INCREMENT 1
-START WITH 1;
+CREATE SEQUENCE customers_id_seq;
 
 CREATE TABLE IF NOT EXISTS customers
 (

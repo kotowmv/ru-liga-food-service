@@ -7,16 +7,15 @@
     <!-- LOCAL CHANGELOG v1  -->
     <changeSet id="v1 2023-14-11 19:00:00" author="kotowmv">
 
-        <sqlFile path="couriers_v1.sql" relativeToChangelogFile="true"/>
-        <sqlFile path="customers_v1.sql" relativeToChangelogFile="true"/>
-        <sqlFile path="restaurants_v1.sql" relativeToChangelogFile="true"/>
-        <sqlFile path="orders_v1.sql" relativeToChangelogFile="true"/>
-        <sqlFile path="menu_items_v1.sql" relativeToChangelogFile="true"/>
-        <sqlFile path="order_items_v1.sql" relativeToChangelogFile="true"/>
-        <!-- relativeToChangelogFile - позволяет указывать путь относительно той папки, где лежит changelog -->
+        <sqlFile path="update/couriers_v1.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="update/customers_v1.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="update/restaurants_v1.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="update/orders_v1.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="update/menu_items_v1.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="update/order_items_v1.sql" relativeToChangelogFile="true"/>
 
         <rollback>
-            <sqlFile path="rollback_v2.sql" relativeToChangelogFile="true"/>
+            <sqlFile path="rollback/rollback_v1.sql" relativeToChangelogFile="true"/>
         </rollback>
 
     </changeSet>
