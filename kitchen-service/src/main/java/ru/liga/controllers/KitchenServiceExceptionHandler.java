@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.NoSuchElementException;
 
-@ControllerAdvice(assignableTypes ={KitchenController.class})
-public class KitchenExceptionHandler {
+@ControllerAdvice(assignableTypes ={CourierController.class, MenuItemController.class, OrderController.class, OrderItemController.class, RestaurantController.class})
+public class KitchenServiceExceptionHandler {
 
     @ExceptionHandler({NoSuchElementException.class})
     @ResponseStatus(
             value = HttpStatus.NOT_FOUND,
-            reason = "Requested order does not exist"
+            reason = "Requested object does not exist"
     )
     public void orderNotFoundException() {}
 }

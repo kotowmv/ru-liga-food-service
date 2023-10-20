@@ -1,7 +1,7 @@
 -- ADDS --
-INSERT INTO couriers(phone, status, coordinates) VALUES ('+79101234567', 'FREE','10.000, 20.000');
-INSERT INTO couriers(phone, status, coordinates) VALUES ('+77471234567', 'DELIVERS','5.000, 25.000');
-INSERT INTO couriers(phone, status, coordinates) VALUES ('+79521234567', 'DELIVERS','7.500, 5.500');
+INSERT INTO couriers(phone, status, coordinates) VALUES ('+79101234567', 'NOT_WORKING','10.000, 20.000');
+INSERT INTO couriers(phone, status, coordinates) VALUES ('+77471234567', 'DELIVERING','5.000, 25.000');
+INSERT INTO couriers(phone, status, coordinates) VALUES ('+79521234567', 'PENDING','7.500, 5.500');
 
 INSERT INTO customers(phone, email, address) VALUES ('+79109876543', 'test1@mail.com','Adress_1');
 INSERT INTO customers(phone, email, address) VALUES ('+77479876543', 'test2@mail.com','Adress_2');
