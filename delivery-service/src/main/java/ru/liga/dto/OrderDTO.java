@@ -1,26 +1,30 @@
 package ru.liga.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.liga.entities.OrderStatus;
+import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @Schema(description = "DTO заказа")
 @Data
 public class OrderDTO {
     @Schema(description = "Идентификатор заказа")
-    private int id;
+    private Integer id;
 
     @Schema(description = "Идентификатор клиента")
-    private int customerId;
+    private Integer customerId;
 
     @Schema(description = "Идентификатор ресторана")
-    private int restaurantId;
+    private Integer restaurantId;
 
     @Schema(description = "Статус заказа")
-    private String status;
+    private OrderStatus status;
 
     @Schema(description = "Идентификатор курьера")
-    private int courierId;
+    private Integer courierId;
 
     @Schema(description = "Дата и время заказа")
-    private String timestamp;
+    private LocalDateTime timestamp;
 }

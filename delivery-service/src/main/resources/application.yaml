@@ -9,3 +9,27 @@ management:
 
 server:
   port: 8080
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: 'true'
+      org:
+        hibernate:
+          envers:
+            revision_field_name: rev_id
+            revision_type_field_name: rev_type
+    show-sql: 'true'
+  datasource:
+    username: 'postgres'
+    password: 'admin'
+    url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+
+logging:
+  pattern:
+    console: '%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n'
