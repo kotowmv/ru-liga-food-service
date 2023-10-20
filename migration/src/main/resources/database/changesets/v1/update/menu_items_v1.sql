@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS menu_items
     id integer NOT NULL DEFAULT nextval('menu_items_id_seq'),
     restaurant_id integer NOT NULL,
     name varchar NOT NULL,
-    price money NOT NULL,
+    price double precision NOT NULL,
     image varchar,
     description varchar,
     CONSTRAINT menu_items_pk PRIMARY KEY (id),

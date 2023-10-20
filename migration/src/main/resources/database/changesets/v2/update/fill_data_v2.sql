@@ -3,16 +3,16 @@ INSERT INTO couriers(phone, status, coordinates) VALUES ('+79101234567', 'FREE',
 INSERT INTO couriers(phone, status, coordinates) VALUES ('+77471234567', 'DELIVERS','5.000, 25.000');
 INSERT INTO couriers(phone, status, coordinates) VALUES ('+79521234567', 'DELIVERS','7.500, 5.500');
 
-INSERT INTO customers(phone, email, adress) VALUES ('+79109876543', 'test1@mail.com','Adress_1');
-INSERT INTO customers(phone, email, adress) VALUES ('+77479876543', 'test2@mail.com','Adress_2');
-INSERT INTO customers(phone, email, adress) VALUES ('+79529876543', 'test3@mail.com','Adress_3');
+INSERT INTO customers(phone, email, address) VALUES ('+79109876543', 'test1@mail.com','Adress_1');
+INSERT INTO customers(phone, email, address) VALUES ('+77479876543', 'test2@mail.com','Adress_2');
+INSERT INTO customers(phone, email, address) VALUES ('+79529876543', 'test3@mail.com','Adress_3');
 
-INSERT INTO restaurants (email, status) VALUES ('first_restaurant@mail.com', 'CLOSE');
-INSERT INTO restaurants (email, status) VALUES ('second_restaurant@mail.com', 'OPEN');
+INSERT INTO restaurants (address, status) VALUES ('first restaurant, 57', 'CLOSE');
+INSERT INTO restaurants (address, status) VALUES ('second restaurant, 86', 'OPEN');
 
-INSERT INTO orders (customer_id, restaurant_id, status, courier_id, time) VALUES (1,1,'COMPLETE',1,'2023-01-08 18:05:06');
-INSERT INTO orders (customer_id, restaurant_id, status, courier_id, time) VALUES (3,2,'IN_DELIVERY',2,'2023-02-08 20:15:02');
-INSERT INTO orders (customer_id, restaurant_id, status, courier_id, time) VALUES (2,2,'IN_DELIVERY',3,'2023-02-08 21:01:54');
+INSERT INTO orders (customer_id, restaurant_id, status, courier_id, timestamp) VALUES (1,1,'CUSTOMER_PAID',1,'2023-01-08 18:05:06');
+INSERT INTO orders (customer_id, restaurant_id, status, courier_id, timestamp) VALUES (3,2,'KITCHEN_DENIED',2,'2023-02-08 20:15:02');
+INSERT INTO orders (customer_id, restaurant_id, status, courier_id, timestamp) VALUES (2,2,'DELIVERY_COMPLETE',3,'2023-02-08 21:01:54');
 
 INSERT INTO menu_items(restaurant_id, name, price, image, description) VALUES (1,'meat',200,'http://food-service.ru/img/meat.jpg', 'some description');
 INSERT INTO menu_items(restaurant_id, name, price, image, description) VALUES (2,'vegetables',100,'http://food-service.ru/img/vegetables.jpg', 'some description');

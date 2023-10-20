@@ -2,42 +2,64 @@ package ru.liga.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.OrderDTO;
+import ru.liga.entities.Order;
+import ru.liga.repositories.OrderRepository;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-@Tag(name = "API для создания заказов")
+@Tag(name = "Order service / API для работы с заказами")
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/os")
 public class OrderController {
+    OrderRepository orderRepository;
 
-    @Operation(summary = "Получить заказ по ID")
-    @GetMapping("/{id}")
-    public OrderDTO getOrderById(@PathVariable("id") int id) {
-        return new OrderDTO();
+    @Autowired
+    public OrderController(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
-    @Operation(summary = "Обновить все данные заказа по ID")
-    @PutMapping("/update/{id}")
-    public OrderDTO updateOrderById(@RequestBody OrderDTO dto, @PathVariable(value = "id", required = true) int id) {
-        return new OrderDTO();
+    @Operation(summary = "Список заказов")
+    @GetMapping("/orderList")
+    public List<OrderDTO> orderList(){
+        List<OrderDTO> list = StreamSupport.stream(orderRepository.findAll().spliterator(), false).map(order -> orderToDTO(order)).collect(Collectors.toList());
+        return list;
     }
 
-    @Operation(summary = "Изменить статус заказа")
-    @PatchMapping("/{id}/{status}")
-    public OrderDTO updateOrderStatusById(@PathVariable(value = "id", required = true) int id,
-                                        @PathVariable("status") String status) {
-        return new OrderDTO();
+    @Operation(summary = "Получение заказа по ID")
+    @GetMapping("/order/{orderId}")
+    public OrderDTO getOrderById(@PathVariable Integer orderId){
+        Optional<Order> row = orderRepository.findById(orderId);
+        if(row.isPresent()) {
+            Order order = row.get();
+            return orderToDTO(order);
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
-    @Operation(summary = "Создать новый заказ")
-    @PostMapping("/create")
-    public OrderDTO createOrder(@RequestBody OrderDTO orderDto) {
-        return new OrderDTO();
+    @Operation(summary = "Добавить новый заказ")
+    @PostMapping("/order")
+    public void addOrder(@RequestBody OrderDTO orderDTO){
+        orderRepository.save(orderToEntity(orderDTO));
     }
 
     @Operation(summary = "Удалить заказ по ID")
-    @DeleteMapping("/delete/{id}")
-    public String deleteOrderById(@PathVariable(value = "id", required = true) int id) {
-        return "Заказ с ID = " + id + " удален";
+    @DeleteMapping ("/order/{orderId}")
+    public void deleteOrder(@PathVariable Integer orderId) {
+        orderRepository.deleteById(orderId);
+    }
+
+    public OrderDTO orderToDTO (Order order) {
+        return new OrderDTO(order.getId(), order.getCustomerId(), order.getRestaurantId(), order.getStatus(), order.getCourierId(), order.getTimestamp());
+    }
+
+    public Order orderToEntity (OrderDTO orderDTO) {
+        return new Order(orderDTO.getCustomerId(), orderDTO.getRestaurantId(), orderDTO.getStatus(), orderDTO.getCourierId(), orderDTO.getTimestamp());
     }
 }

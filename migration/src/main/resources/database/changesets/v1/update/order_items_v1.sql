@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS order_items
     id integer NOT NULL DEFAULT nextval('order_items_id_seq'),
     order_id integer NOT NULL,
     menu_item_id integer NOT NULL,
-    price money NOT NULL,
+    price double precision NOT NULL,
     quantity integer NOT NULL,
     CONSTRAINT order_items_pk PRIMARY KEY (id),
     CONSTRAINT order_items_orders_fk FOREIGN KEY (order_id) REFERENCES orders(id),
