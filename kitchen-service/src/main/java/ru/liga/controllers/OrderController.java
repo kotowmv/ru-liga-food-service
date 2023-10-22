@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.OrderDTO;
 import ru.liga.entities.Order;
+import ru.liga.entities.OrderStatus;
 import ru.liga.repositories.OrderRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -40,6 +41,17 @@ public class OrderController {
             return orderToDTO(order);
         } else {
             throw new NoSuchElementException();
+        }
+    }
+
+    @Operation(summary = "Обновить статус заказа по ID")
+    @PatchMapping("/order/{orderId}")
+    public void updateOrderStatusById(@PathVariable Integer orderId, @RequestBody OrderStatus status) {
+        Optional<Order> row = orderRepository.findById(orderId);
+        if (row.isPresent()) {
+            Order order = row.get();
+            order.setStatus(status);
+            orderRepository.save(order);
         }
     }
 

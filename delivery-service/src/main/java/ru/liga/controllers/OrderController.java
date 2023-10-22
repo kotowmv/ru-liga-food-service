@@ -3,12 +3,11 @@ package ru.liga.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.OrderDTO;
 import ru.liga.entities.Order;
+import ru.liga.entities.OrderStatus;
+import ru.liga.feignclient.KitchenServiceFeignClient;
 import ru.liga.repositories.OrderRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,10 +20,12 @@ import java.util.stream.StreamSupport;
 @RequestMapping("/ds")
 public class OrderController {
     OrderRepository orderRepository;
+    KitchenServiceFeignClient feignClient;
 
     @Autowired
-    public OrderController(OrderRepository orderRepository) {
+    public OrderController(OrderRepository orderRepository, KitchenServiceFeignClient feignClient) {
         this.orderRepository = orderRepository;
+        this.feignClient = feignClient;
     }
 
     @Operation(summary = "Список заказов")
@@ -44,6 +45,24 @@ public class OrderController {
         } else {
             throw new NoSuchElementException();
         }
+    }
+
+    @Operation(summary = "Обновить статус заказа по ID")
+    @PatchMapping("/order/{orderId}")
+    public void updateOrderStatusById(@PathVariable Integer orderId, OrderStatus status){
+        feignClient.updateOrderStatusById(orderId, status);
+    }
+
+    @Operation(summary = "Принять заказ по ID")
+    @PostMapping("/order/accept/{orderId}")
+    public void acceptOrderById(@PathVariable Integer orderId){
+        feignClient.updateOrderStatusById(orderId, OrderStatus.DELIVERY_PICKING);
+    }
+
+    @Operation(summary = "Отклонить заказ по ID")
+    @PostMapping("/order/reject/{orderId}")
+    public void rejectOrderById(@PathVariable Integer orderId){
+        feignClient.updateOrderStatusById(orderId, OrderStatus.DELIVERY_DENIED);
     }
 
     public OrderDTO orderToDTO (Order order) {

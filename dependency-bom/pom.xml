@@ -30,6 +30,8 @@
         <mybatis.version>3.5.6</mybatis.version>
         <hibernate.version>5.6.15.Final</hibernate.version>
         <log4j.version>2.20.0</log4j.version>
+        <cloud-openfeign.version>3.1.8</cloud-openfeign.version>
+        <feign-core.version>11.10</feign-core.version>
     </properties>
 
     <dependencyManagement>
@@ -96,6 +98,16 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
                 <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>${cloud-openfeign.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-okhttp</artifactId>
+                <version>${feign-core.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
