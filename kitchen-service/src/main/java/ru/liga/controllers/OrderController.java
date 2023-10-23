@@ -8,6 +8,7 @@ import ru.liga.dto.OrderDTO;
 import ru.liga.entities.Order;
 import ru.liga.entities.OrderStatus;
 import ru.liga.repositories.OrderRepository;
+import ru.liga.service.OrderService;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -21,8 +22,9 @@ public class OrderController {
     OrderRepository orderRepository;
 
     @Autowired
-    public OrderController(OrderRepository orderRepository) {
+    public OrderController(OrderRepository orderRepository, OrderService orderService) {
         this.orderRepository = orderRepository;
+        this.orderService = orderService;
     }
 
     @Operation(summary = "Список заказов")
@@ -53,6 +55,14 @@ public class OrderController {
             order.setStatus(status);
             orderRepository.save(order);
         }
+    }
+
+    private final OrderService orderService;
+
+    @Operation(summary = "Отправить заказ в службу доставки по ID")
+    @PostMapping("/")
+    public void sendOrderToDeliveryById(String message) {
+        orderService.sendMessageToCouriers(message);
     }
 
     public OrderDTO orderToDTO (Order order) {
