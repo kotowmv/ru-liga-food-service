@@ -2,64 +2,41 @@ package ru.liga.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.CustomerDTO;
-import ru.liga.entities.Customer;
-import ru.liga.repositories.CustomerRepository;
+import ru.liga.service.CustomerService;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Tag(name = "Order service / API для работы с клиентами")
 @RestController
-@RequestMapping("/os")
+@RequestMapping("/")
+@RequiredArgsConstructor
 public class CustomerController {
-    CustomerRepository customerRepository;
 
-    @Autowired
-    public CustomerController(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
+    private final CustomerService customerService;
 
     @Operation(summary = "Список клиентов")
-    @GetMapping("/customerList")
+    @GetMapping("/customers")
     public List<CustomerDTO> customerList(){
-        List<CustomerDTO> list = StreamSupport.stream(customerRepository.findAll().spliterator(), false).map(customer -> customerToDTO(customer)).collect(Collectors.toList());
-        return list;
+        return customerService.dtoList();
     }
 
     @Operation(summary = "Получение клиента по ID")
-    @GetMapping("/customer/{customerId}")
-    public CustomerDTO getCustomerById(@PathVariable Integer customerId){
-        Optional<Customer> row = customerRepository.findById(customerId);
-        if(row.isPresent()) {
-            Customer customer = row.get();
-            return customerToDTO(customer);
-        } else {
-            throw new NoSuchElementException();
-        }
+    @GetMapping("/customer/{id}")
+    public CustomerDTO getCustomerById(@PathVariable Integer id){
+        return customerService.getById(id);
     }
 
     @Operation(summary = "Добавить нового клиента")
     @PostMapping("/customer")
     public void addCustomer(@RequestBody CustomerDTO customerDTO){
-        customerRepository.save(customerToEntity(customerDTO));
+        customerService.convertAndSave(customerDTO);
     }
 
     @Operation(summary = "Удалить клиента по ID")
-    @DeleteMapping ("/customer/{customerId}")
-    public void deleteCustomer(@PathVariable Integer customerId) {
-        customerRepository.deleteById(customerId);
-    }
-
-    public CustomerDTO customerToDTO (Customer customer) {
-        return new CustomerDTO(customer.getId(), customer.getPhone(), customer.getEmail(), customer.getAddress());
-    }
-
-    public Customer customerToEntity (CustomerDTO customerDTO) {
-        return new Customer(customerDTO.getPhone(), customerDTO.getEmail(), customerDTO.getAddress());
+    @DeleteMapping ("/customer/{id}")
+    public void deleteCustomer(@PathVariable Integer id) {
+        customerService.deleteById(id);
     }
 }

@@ -12,6 +12,7 @@
         <result property="description" column="description"/>
     </resultMap>
     <select id="getMenuItems" resultMap="menuItem">
-        select * from menu_items
+        select id, restaurant_id, name, price, image, description
+        from menu_items
     </select>
 </mapper>

@@ -32,7 +32,7 @@ public class Order {
 
     private LocalDateTime timestamp;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "orderId", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems;
 
     public Order(Integer customerId, Integer restaurantId, OrderStatus status, Integer courierId, LocalDateTime timestamp) {

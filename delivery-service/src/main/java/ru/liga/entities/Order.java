@@ -16,9 +16,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
-    private Customer customer;
     @Column(name = "customer_id")
     private Integer customerId;
 

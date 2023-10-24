@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.liga.entities.OrderStatus;
 
-@FeignClient(name = "kitchenService", url = "http://localhost:8081/ks")
+@FeignClient(name = "kitchenService", url = "http://localhost:8081/")
 public interface KitchenServiceFeignClient {
-    @PatchMapping("/order/{orderId}")
-    void updateOrderStatusById(@PathVariable Integer orderId, @RequestBody OrderStatus status);
+    @PatchMapping("/order/{id}")
+    void updateOrderStatusById(@PathVariable Integer id, @RequestBody OrderStatus status);
 }

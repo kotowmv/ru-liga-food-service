@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.liga.dto.OrderDTO;
 import ru.liga.entities.Order;
 import ru.liga.entities.OrderStatus;
+import ru.liga.feignclient.KitchenServiceFeignClient;
 import ru.liga.repositories.OrderRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -17,7 +17,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    private final ProducerService producerService;
+    private final KitchenServiceFeignClient feignClient;
 
     public List<OrderDTO> dtoList() {
         return StreamSupport.stream(orderRepository.findAll().spliterator(), false).map(this::orderToDTO).collect(Collectors.toList());
@@ -30,19 +30,18 @@ public class OrderService {
     }
 
     public void updateStatusById(Integer id, OrderStatus status) {
-        Optional<Order> row = orderRepository.findById(id);
-        if (row.isPresent()) {
-            Order order = row.get();
-            order.setStatus(status);
-            orderRepository.save(order);
-        }
+        feignClient.updateOrderStatusById(id, status);
     }
 
-    public void sendMessageToCouriers (String message) {
-        producerService.sendOrder(message, "couriers");
+    public void acceptById(Integer id) {
+        feignClient.updateOrderStatusById(id, OrderStatus.DELIVERY_PICKING);
     }
 
-    public OrderDTO orderToDTO (Order order) {
+    public void rejectById(Integer id) {
+        feignClient.updateOrderStatusById(id, OrderStatus.DELIVERY_DENIED);
+    }
+
+    public OrderDTO orderToDTO(Order order) {
         return new OrderDTO(order.getId(), order.getCustomerId(), order.getRestaurantId(), order.getStatus(), order.getCourierId(), order.getTimestamp());
     }
 }

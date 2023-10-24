@@ -20,7 +20,7 @@
             id="getOrderById"
             parameterType="java.lang.Integer"
             resultMap="order">
-            select * from orders
+            select id, customer_id, restaurant_id, status, courier_id, timestamp from orders
             where id = #{id}
     </select>
 </mapper>

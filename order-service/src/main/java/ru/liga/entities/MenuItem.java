@@ -13,9 +13,6 @@ public class MenuItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", insertable = false, updatable = false)
-    private Restaurant restaurant;
     @Column(name = "restaurant_id")
     private Integer restaurantId;
 

@@ -2,64 +2,48 @@ package ru.liga.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.OrderDTO;
-import ru.liga.entities.Order;
-import ru.liga.repositories.OrderRepository;
+import ru.liga.entities.OrderStatus;
+import ru.liga.service.OrderService;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Tag(name = "Order service / API для работы с заказами")
 @RestController
-@RequestMapping("/os")
+@RequestMapping("/")
+@RequiredArgsConstructor
 public class OrderController {
-    OrderRepository orderRepository;
 
-    @Autowired
-    public OrderController(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
+    private final OrderService orderService;
 
     @Operation(summary = "Список заказов")
-    @GetMapping("/orderList")
+    @GetMapping("/orders")
     public List<OrderDTO> orderList(){
-        List<OrderDTO> list = StreamSupport.stream(orderRepository.findAll().spliterator(), false).map(order -> orderToDTO(order)).collect(Collectors.toList());
-        return list;
+        return orderService.dtoList();
     }
 
     @Operation(summary = "Получение заказа по ID")
-    @GetMapping("/order/{orderId}")
-    public OrderDTO getOrderById(@PathVariable Integer orderId){
-        Optional<Order> row = orderRepository.findById(orderId);
-        if(row.isPresent()) {
-            Order order = row.get();
-            return orderToDTO(order);
-        } else {
-            throw new NoSuchElementException();
-        }
+    @GetMapping("/order/{id}")
+    public OrderDTO getOrderById(@PathVariable Integer id){
+        return orderService.getById(id);
     }
 
     @Operation(summary = "Добавить новый заказ")
     @PostMapping("/order")
     public void addOrder(@RequestBody OrderDTO orderDTO){
-        orderRepository.save(orderToEntity(orderDTO));
+        orderService.convertAndSave(orderDTO);
     }
 
     @Operation(summary = "Удалить заказ по ID")
-    @DeleteMapping ("/order/{orderId}")
-    public void deleteOrder(@PathVariable Integer orderId) {
-        orderRepository.deleteById(orderId);
+    @DeleteMapping ("/order/{id}")
+    public void deleteOrder(@PathVariable Integer id) {
+        orderService.deleteById(id);
     }
 
-    public OrderDTO orderToDTO (Order order) {
-        return new OrderDTO(order.getId(), order.getCustomerId(), order.getRestaurantId(), order.getStatus(), order.getCourierId(), order.getTimestamp());
-    }
-
-    public Order orderToEntity (OrderDTO orderDTO) {
-        return new Order(orderDTO.getCustomerId(), orderDTO.getRestaurantId(), orderDTO.getStatus(), orderDTO.getCourierId(), orderDTO.getTimestamp());
+    @Operation(summary = "Обновить статус заказа по ID")
+    @PatchMapping("/order/{id}")
+    public void updateOrderStatusById(@PathVariable Integer id, @RequestBody OrderStatus status) {
+        orderService.updateStatusById(id, status);
     }
 }

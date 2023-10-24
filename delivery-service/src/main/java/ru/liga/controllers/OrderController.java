@@ -2,70 +2,48 @@ package ru.liga.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.OrderDTO;
-import ru.liga.entities.Order;
 import ru.liga.entities.OrderStatus;
-import ru.liga.feignclient.KitchenServiceFeignClient;
-import ru.liga.repositories.OrderRepository;
+import ru.liga.service.OrderService;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Tag(name = "Delivery service / API для работы с заказами")
 @RestController
-@RequestMapping("/ds")
+@RequestMapping("/")
+@RequiredArgsConstructor
 public class OrderController {
-    OrderRepository orderRepository;
-    KitchenServiceFeignClient feignClient;
 
-    @Autowired
-    public OrderController(OrderRepository orderRepository, KitchenServiceFeignClient feignClient) {
-        this.orderRepository = orderRepository;
-        this.feignClient = feignClient;
-    }
+    private final OrderService orderService;
 
     @Operation(summary = "Список заказов")
-    @GetMapping("/orderList")
+    @GetMapping("/orders")
     public List<OrderDTO> orderList(){
-        List<OrderDTO> list = StreamSupport.stream(orderRepository.findAll().spliterator(), false).map(order -> orderToDTO(order)).collect(Collectors.toList());
-        return list;
+        return orderService.dtoList();
     }
 
     @Operation(summary = "Получение заказа по ID")
-    @GetMapping("/order/{orderId}")
-    public OrderDTO getOrderById(@PathVariable Integer orderId){
-        Optional<Order> row = orderRepository.findById(orderId);
-        if(row.isPresent()) {
-            Order order = row.get();
-            return orderToDTO(order);
-        } else {
-            throw new NoSuchElementException();
-        }
+    @GetMapping("/order/{id}")
+    public OrderDTO getOrderById(@PathVariable Integer id){
+        return orderService.getById(id);
     }
 
     @Operation(summary = "Обновить статус заказа по ID")
-    @PatchMapping("/order/{orderId}")
-    public void updateOrderStatusById(@PathVariable Integer orderId, OrderStatus status){
-        feignClient.updateOrderStatusById(orderId, status);
+    @PatchMapping("/order/{id}")
+    public void updateOrderStatusById(@PathVariable Integer id, OrderStatus status){
+        orderService.updateStatusById(id, status);
     }
 
     @Operation(summary = "Принять заказ по ID")
-    @PostMapping("/order/accept/{orderId}")
-    public void acceptOrderById(@PathVariable Integer orderId){
-        feignClient.updateOrderStatusById(orderId, OrderStatus.DELIVERY_PICKING);
+    @PostMapping("/order/accept/{id}")
+    public void acceptOrderById(@PathVariable Integer id){
+        orderService.acceptById(id);
     }
 
     @Operation(summary = "Отклонить заказ по ID")
-    @PostMapping("/order/reject/{orderId}")
-    public void rejectOrderById(@PathVariable Integer orderId){
-        feignClient.updateOrderStatusById(orderId, OrderStatus.DELIVERY_DENIED);
-    }
-
-    public OrderDTO orderToDTO (Order order) {
-        return new OrderDTO(order.getId(), order.getCustomerId(), order.getRestaurantId(), order.getStatus(), order.getCourierId(), order.getTimestamp());
+    @PostMapping("/order/reject/{id}")
+    public void rejectOrderById(@PathVariable Integer id){
+        orderService.rejectById(id);
     }
 }

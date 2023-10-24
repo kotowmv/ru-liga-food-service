@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.NoSuchElementException;
 
-@ControllerAdvice(assignableTypes ={CourierController.class, CustomerController.class, OrderController.class, RestaurantController.class})
+@ControllerAdvice(assignableTypes ={CourierController.class, OrderController.class})
 public class DeliveryServiceExceptionHandler {
 
     @ExceptionHandler({NoSuchElementException.class})
