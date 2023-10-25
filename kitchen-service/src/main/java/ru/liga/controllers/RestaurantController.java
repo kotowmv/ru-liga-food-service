@@ -25,7 +25,7 @@ public class RestaurantController {
     @Operation(summary = "Получение ресторана по ID")
     @GetMapping("/restaurant/{id}")
     public RestaurantDTO getRestaurantById(@PathVariable Integer id){
-        return restaurantService.getById(id);
+        return restaurantService.getDtoById(id);
     }
 
     @Operation(summary = "Добавить ресторан")

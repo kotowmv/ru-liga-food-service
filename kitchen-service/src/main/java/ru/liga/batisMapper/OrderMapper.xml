@@ -9,18 +9,20 @@
         <result property="restaurantId" column="restaurant_id"/>
         <result property="status" column="status"/>
         <result property="courierId" column="courier_id"/>
-        <result property="timestamp" column="time"/>
+        <result property="timestamp" column="timestamp"/>
     </resultMap>
     <select
             id="getOrders"
             resultMap="order">
-        select * from orders
+            select id, customer_id, restaurant_id, status, courier_id, timestamp
+            from orders
     </select>
     <select
             id="getOrderById"
             parameterType="java.lang.Integer"
             resultMap="order">
-            select id, customer_id, restaurant_id, status, courier_id, timestamp from orders
+            select id, customer_id, restaurant_id, status, courier_id, timestamp
+            from orders
             where id = #{id}
     </select>
 </mapper>

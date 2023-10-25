@@ -25,7 +25,7 @@ public class CourierController {
     @Operation(summary = "Получение курьера по ID")
     @GetMapping("/courier/{id}")
     public CourierDTO getCourierById(@PathVariable Integer id){
-        return courierService.getById(id);
+        return courierService.getDtoById(id);
     }
 
     @Operation(summary = "Добавить нового курьера")

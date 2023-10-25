@@ -23,10 +23,22 @@ public class OrderController {
         return orderService.dtoList();
     }
 
+    @Operation(summary = "Список заказов / MyBatis")
+    @GetMapping("/orders2")
+    public List<OrderDTO> orderList2(){
+        return orderService.dtoList2();
+    }
+
     @Operation(summary = "Получение заказа по ID")
     @GetMapping("/order/{id}")
     public OrderDTO getOrderById(@PathVariable Integer id){
-        return orderService.getById(id);
+        return orderService.getDtoById(id);
+    }
+
+    @Operation(summary = "Получение заказа по ID / MyBatis")
+    @GetMapping("/order2/{id}")
+    public OrderDTO getOrderById2(@PathVariable Integer id){
+        return orderService.getDtoById2(id);
     }
 
     @Operation(summary = "Обновить статус заказа по ID")

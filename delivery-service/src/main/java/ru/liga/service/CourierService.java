@@ -19,10 +19,12 @@ public class CourierService {
         return StreamSupport.stream(courierRepository.findAll().spliterator(), false).map(this::courierToDTO).collect(Collectors.toList());
     }
 
-    public CourierDTO getById (Integer id) {
-        return courierRepository.findById(id)
-                .map(this::courierToDTO)
-                .orElseThrow(() -> new RuntimeException("Courier with id = " + id + " is not exists"));
+    public CourierDTO getDtoById(Integer id) {
+        return courierToDTO(getById(id));
+    }
+
+    public Courier getById (Integer id){
+        return courierRepository.findById(id).orElseThrow(() -> new RuntimeException("Courier with id = " + id + " is not exists"));
     }
 
     public void convertAndSave (CourierDTO courierDTO) {

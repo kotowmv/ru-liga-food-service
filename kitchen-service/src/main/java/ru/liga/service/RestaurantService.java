@@ -19,10 +19,12 @@ public class RestaurantService {
         return StreamSupport.stream(restaurantRepository.findAll().spliterator(),false).map(this::restaurantToDTO).collect(Collectors.toList());
     }
 
-    public RestaurantDTO getById(Integer id) {
-        return restaurantRepository.findById(id)
-                .map(this::restaurantToDTO)
-                .orElseThrow(() -> new RuntimeException("Restaurant with id = " + id + "is not exists"));
+    public RestaurantDTO getDtoById(Integer id) {
+        return restaurantToDTO(getById(id));
+    }
+
+    public Restaurant getById(Integer id) {
+        return restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant with id = " + id + " is not exists"));
     }
 
     public void convertAndSave (RestaurantDTO restaurantDTO) {

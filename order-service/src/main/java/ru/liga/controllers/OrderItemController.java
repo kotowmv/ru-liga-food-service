@@ -25,7 +25,7 @@ public class OrderItemController {
     @Operation(summary = "Получение позиции заказа по ID")
     @GetMapping("/order_item/{id}")
     public OrderItemDTO getOrderItemById(@PathVariable Integer id){
-        return orderItemService.getById(id);
+        return orderItemService.getDtoById(id);
     }
 
     @Operation(summary = "Добавить позицию в заказ")

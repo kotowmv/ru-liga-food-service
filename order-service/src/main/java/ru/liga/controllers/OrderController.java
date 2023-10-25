@@ -26,7 +26,7 @@ public class OrderController {
     @Operation(summary = "Получение заказа по ID")
     @GetMapping("/order/{id}")
     public OrderDTO getOrderById(@PathVariable Integer id){
-        return orderService.getById(id);
+        return orderService.getDtoById(id);
     }
 
     @Operation(summary = "Добавить новый заказ")

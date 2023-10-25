@@ -37,3 +37,6 @@ logging:
 feign:
   okhttp:
     enabled: true
+  client:
+    config:
+      kitchenService.url: http://localhost:8081/

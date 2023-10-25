@@ -19,10 +19,12 @@ public class OrderItemService {
         return StreamSupport.stream(orderItemRepository.findAll().spliterator(), false).map(this::orderItemToDTO).collect(Collectors.toList());
     }
 
-    public OrderItemDTO getById (Integer id) {
-        return orderItemRepository.findById(id)
-                .map(this::orderItemToDTO)
-                .orElseThrow(() -> new RuntimeException("Order item with id = " + id + "is not exists"));
+    public OrderItemDTO getDtoById(Integer id) {
+        return orderItemToDTO(getById(id));
+    }
+
+    public OrderItem getById(Integer id) {
+        return orderItemRepository.findById(id).orElseThrow(() -> new RuntimeException("Order item with id = " + id + " is not exists"));
     }
 
     public void convertAndSave (OrderItemDTO orderItemDTO) {

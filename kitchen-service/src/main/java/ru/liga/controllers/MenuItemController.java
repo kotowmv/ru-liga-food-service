@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.MenuItemDTO;
 import ru.liga.service.MenuItemService;
-import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "Kitchen service / API для работы с позициями меню")
@@ -26,14 +25,14 @@ public class MenuItemController {
 
     @Operation(summary = "Список объектов в меню ресторана / MyBatis")
     @GetMapping("/menu_items2")
-    public List<MenuItemDTO> menuItemList2() throws IOException {
+    public List<MenuItemDTO> menuItemList2(){
         return menuItemService.dtoList2();
     }
 
     @Operation(summary = "Получение объекта меню по ID")
     @GetMapping("/menu_item/{id}")
     public MenuItemDTO getMenuItemById(@PathVariable Integer id){
-        return menuItemService.getById(id);
+        return menuItemService.getDtoById(id);
     }
 
     @Operation(summary = "Добавить объект в меню ресторана")

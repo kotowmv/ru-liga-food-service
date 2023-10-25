@@ -25,7 +25,7 @@ public class CustomerController {
     @Operation(summary = "Получение клиента по ID")
     @GetMapping("/customer/{id}")
     public CustomerDTO getCustomerById(@PathVariable Integer id){
-        return customerService.getById(id);
+        return customerService.getDtoById(id);
     }
 
     @Operation(summary = "Добавить нового клиента")

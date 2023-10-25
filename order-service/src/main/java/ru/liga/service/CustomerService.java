@@ -19,10 +19,12 @@ public class CustomerService {
         return StreamSupport.stream(customerRepository.findAll().spliterator(), false).map(this::customerToDTO).collect(Collectors.toList());
     }
 
-    public CustomerDTO getById (Integer id) {
-        return customerRepository.findById(id)
-                .map(this::customerToDTO)
-                .orElseThrow(() -> new RuntimeException("Customer with id = " + id + "is not exists"));
+    public CustomerDTO getDtoById(Integer id) {
+        return customerToDTO(getById(id));
+    }
+
+    public Customer getById(Integer id) {
+        return customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer with id = " + id + " is not exists"));
     }
 
     public void convertAndSave (CustomerDTO customerDTO) {

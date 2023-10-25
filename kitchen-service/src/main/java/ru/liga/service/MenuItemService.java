@@ -6,7 +6,6 @@ import ru.liga.batisMapper.MenuItemMapper;
 import ru.liga.dto.MenuItemDTO;
 import ru.liga.entities.MenuItem;
 import ru.liga.repositories.MenuItemRepository;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,14 +23,16 @@ public class MenuItemService {
         return StreamSupport.stream(menuItemRepository.findAll().spliterator(), false).map(this::menuItemToDTO).collect(Collectors.toList());
     }
 
-    public MenuItemDTO getById(Integer id) {
-        return menuItemRepository.findById(id)
-                .map(this::menuItemToDTO)
-                .orElseThrow(() -> new RuntimeException("Menu item with id = " + id + "is not exists"));
+    public List<MenuItemDTO> dtoList2(){
+        return menuItemMapper.getMenuItems().stream().map(this::menuItemToDTO).collect(Collectors.toList());
     }
 
-    public List<MenuItemDTO> dtoList2() throws IOException {
-        return menuItemMapper.getMenuItems().stream().map(this::menuItemToDTO).collect(Collectors.toList());
+    public MenuItemDTO getDtoById(Integer id) {
+        return menuItemToDTO(getById(id));
+    }
+
+    public MenuItem getById(Integer id) {
+        return menuItemRepository.findById(id).orElseThrow(() -> new RuntimeException("Menu item with id = " + id + " is not exists"));
     }
 
     public void convertAndSave(MenuItemDTO itemDTO) {
@@ -49,7 +50,7 @@ public class MenuItemService {
             item.setPrice(price);
             menuItemRepository.save(item);
         } else {
-            throw new RuntimeException("Menu item with id = " + id + "is not exists");
+            throw new RuntimeException("Menu item with id = " + id + " is not exists");
         }
     }
 

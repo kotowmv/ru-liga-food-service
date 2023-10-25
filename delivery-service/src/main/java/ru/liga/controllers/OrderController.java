@@ -26,7 +26,7 @@ public class OrderController {
     @Operation(summary = "Получение заказа по ID")
     @GetMapping("/order/{id}")
     public OrderDTO getOrderById(@PathVariable Integer id){
-        return orderService.getById(id);
+        return orderService.getDtoById(id);
     }
 
     @Operation(summary = "Обновить статус заказа по ID")
@@ -45,5 +45,17 @@ public class OrderController {
     @PostMapping("/order/reject/{id}")
     public void rejectOrderById(@PathVariable Integer id){
         orderService.rejectById(id);
+    }
+
+    @Operation(summary = "Список текущих заказов")
+    @GetMapping("/current_orders")
+    public List<OrderDTO> currentOrderList(){
+        return orderService.getAllCurrentOrdersDtoList();
+    }
+
+    @Operation(summary = "Количество текущих заказов")
+    @GetMapping("/current_orders/count")
+    public Integer currentOrderCount(){
+        return orderService.getCountOfCurrentOrders();
     }
 }
