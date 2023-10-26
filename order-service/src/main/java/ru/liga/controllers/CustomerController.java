@@ -18,24 +18,24 @@ public class CustomerController {
 
     @Operation(summary = "Список клиентов")
     @GetMapping("/customers")
-    public List<CustomerDTO> customerList(){
-        return customerService.dtoList();
+    public List<CustomerDTO> customerList() {
+        return customerService.getDtoList();
     }
 
     @Operation(summary = "Получение клиента по ID")
     @GetMapping("/customer/{id}")
-    public CustomerDTO getCustomerById(@PathVariable Integer id){
+    public CustomerDTO getCustomerById(@PathVariable Integer id) {
         return customerService.getDtoById(id);
     }
 
     @Operation(summary = "Добавить нового клиента")
     @PostMapping("/customer")
-    public void addCustomer(@RequestBody CustomerDTO customerDTO){
+    public void addCustomer(@RequestBody CustomerDTO customerDTO) {
         customerService.convertAndSave(customerDTO);
     }
 
     @Operation(summary = "Удалить клиента по ID")
-    @DeleteMapping ("/customer/{id}")
+    @DeleteMapping("/customer/{id}")
     public void deleteCustomer(@PathVariable Integer id) {
         customerService.deleteById(id);
     }

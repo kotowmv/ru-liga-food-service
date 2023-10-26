@@ -1,6 +1,7 @@
 package ru.liga.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.liga.batisMapper.MenuItemMapper;
 import ru.liga.dto.MenuItemDTO;
@@ -19,11 +20,11 @@ public class MenuItemService {
 
     private final MenuItemMapper menuItemMapper;
 
-    public List<MenuItemDTO> dtoList() {
+    public List<MenuItemDTO> getDtoList() {
         return StreamSupport.stream(menuItemRepository.findAll().spliterator(), false).map(this::menuItemToDTO).collect(Collectors.toList());
     }
 
-    public List<MenuItemDTO> dtoList2(){
+    public List<MenuItemDTO> getDtoListWithMyBatis() {
         return menuItemMapper.getMenuItems().stream().map(this::menuItemToDTO).collect(Collectors.toList());
     }
 
@@ -32,7 +33,11 @@ public class MenuItemService {
     }
 
     public MenuItem getById(Integer id) {
-        return menuItemRepository.findById(id).orElseThrow(() -> new RuntimeException("Menu item with id = " + id + " is not exists"));
+        if (id > 0) {
+            return menuItemRepository.findById(id).orElseThrow(() -> new RuntimeException("Menu item with id = " + id + " is not exists"));
+        } else {
+            throw new RuntimeException("Incorrect id");
+        }
     }
 
     public void convertAndSave(MenuItemDTO itemDTO) {
@@ -40,17 +45,29 @@ public class MenuItemService {
     }
 
     public void deleteById(Integer id) {
-        menuItemRepository.deleteById(id);
+        if (id > 0) {
+            try {
+                menuItemRepository.deleteById(id);
+            } catch (EmptyResultDataAccessException e) {
+                throw new RuntimeException("Courier with id = " + id + " is not exists");
+            }
+        } else {
+            throw new RuntimeException("Incorrect id");
+        }
     }
 
     public void updatePriceById(Integer id, Double price) {
-        Optional<MenuItem> row = menuItemRepository.findById(id);
-        if (row.isPresent()) {
-            MenuItem item = row.get();
-            item.setPrice(price);
-            menuItemRepository.save(item);
+        if (id > 0) {
+            Optional<MenuItem> row = menuItemRepository.findById(id);
+            if (row.isPresent()) {
+                MenuItem item = row.get();
+                item.setPrice(price);
+                menuItemRepository.save(item);
+            } else {
+                throw new RuntimeException("Menu item with id = " + id + " is not exists");
+            }
         } else {
-            throw new RuntimeException("Menu item with id = " + id + " is not exists");
+            throw new RuntimeException("Incorrect id");
         }
     }
 

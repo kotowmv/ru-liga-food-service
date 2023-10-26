@@ -22,11 +22,11 @@ public class OrderService {
 
     private final OrderMapper orderMapper;
 
-    public List<OrderDTO> dtoList() {
+    public List<OrderDTO> getDtoList() {
         return StreamSupport.stream(orderRepository.findAll().spliterator(), false).map(this::orderToDTO).collect(Collectors.toList());
     }
 
-    public List<OrderDTO> dtoList2() {
+    public List<OrderDTO> getDtoListWithMyBatis() {
         return orderMapper.getOrders().stream().map(this::orderToDTO).collect(Collectors.toList());
     }
 
@@ -34,32 +34,44 @@ public class OrderService {
         return orderToDTO(getById(id));
     }
 
-    public OrderDTO getDtoById2(Integer id) {
-        return orderToDTO(getById2(id));
+    public OrderDTO getDtoByIdWithMyBatis(Integer id) {
+        return orderToDTO(getByIdWithMyBatis(id));
     }
 
     public Order getById(Integer id) {
-        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order with id = " + id + " is not exists"));
-    }
-
-    public Order getById2(Integer id) {
-        return orderMapper.getOrderById(id).orElseThrow(() -> new RuntimeException("Order with id = " + id + " is not exists"));
-    }
-
-    public void updateStatusById(Integer id, OrderStatus status) {
-        Optional<Order> row = orderRepository.findById(id);
-        if (row.isPresent()) {
-            Order order = row.get();
-            order.setStatus(status);
-            orderRepository.save(order);
+        if (id > 0) {
+            return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order with id = " + id + " is not exists"));
+        } else {
+            throw new RuntimeException("Incorrect id");
         }
     }
 
-    public void sendMessageToCouriers (String message) {
+    public Order getByIdWithMyBatis(Integer id) {
+        if (id > 0) {
+            return orderMapper.getOrderById(id).orElseThrow(() -> new RuntimeException("Order with id = " + id + " is not exists"));
+        } else {
+            throw new RuntimeException("Incorrect id");
+        }
+    }
+
+    public void updateStatusById(Integer id, OrderStatus status) {
+        if (id > 0) {
+            Optional<Order> row = orderRepository.findById(id);
+            if (row.isPresent()) {
+                Order order = row.get();
+                order.setStatus(status);
+                orderRepository.save(order);
+            }
+        } else {
+            throw new RuntimeException("Incorrect id");
+        }
+    }
+
+    public void sendMessageToCouriers(String message) {
         producerService.sendOrder(message, "couriers");
     }
 
-    public OrderDTO orderToDTO (Order order) {
+    public OrderDTO orderToDTO(Order order) {
         return new OrderDTO(order.getId(), order.getCustomerId(), order.getRestaurantId(), order.getStatus(), order.getCourierId(), order.getTimestamp());
     }
 }

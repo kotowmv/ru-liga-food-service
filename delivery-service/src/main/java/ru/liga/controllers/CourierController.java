@@ -18,24 +18,24 @@ public class CourierController {
 
     @Operation(summary = "Список курьеров")
     @GetMapping("/couriers")
-    public List<CourierDTO> courierList(){
-        return courierService.dtoList();
+    public List<CourierDTO> getCourierList() {
+        return courierService.getDtoList();
     }
 
     @Operation(summary = "Получение курьера по ID")
     @GetMapping("/courier/{id}")
-    public CourierDTO getCourierById(@PathVariable Integer id){
+    public CourierDTO getCourierById(@PathVariable Integer id) {
         return courierService.getDtoById(id);
     }
 
     @Operation(summary = "Добавить нового курьера")
     @PostMapping("/courier")
-    public void addCourier(@RequestBody CourierDTO courierDTO){
+    public void addCourier(@RequestBody CourierDTO courierDTO) {
         courierService.convertAndSave(courierDTO);
     }
 
     @Operation(summary = "Удалить курьера по ID")
-    @DeleteMapping ("/courier/{id}")
+    @DeleteMapping("/courier/{id}")
     public void deleteCourierById(@PathVariable Integer id) {
         courierService.deleteById(id);
     }

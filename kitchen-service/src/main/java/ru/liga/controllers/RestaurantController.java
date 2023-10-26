@@ -18,24 +18,24 @@ public class RestaurantController {
 
     @Operation(summary = "Список ресторанов")
     @GetMapping("/restaurants")
-    public List<RestaurantDTO> getRestaurantList(){
-        return restaurantService.dtoList();
+    public List<RestaurantDTO> getRestaurantList() {
+        return restaurantService.getDtoList();
     }
 
     @Operation(summary = "Получение ресторана по ID")
     @GetMapping("/restaurant/{id}")
-    public RestaurantDTO getRestaurantById(@PathVariable Integer id){
+    public RestaurantDTO getRestaurantById(@PathVariable Integer id) {
         return restaurantService.getDtoById(id);
     }
 
     @Operation(summary = "Добавить ресторан")
     @PostMapping("/restaurant")
-    public void addOrderItem(@RequestBody RestaurantDTO restaurantDTO){
+    public void addOrderItem(@RequestBody RestaurantDTO restaurantDTO) {
         restaurantService.convertAndSave(restaurantDTO);
     }
 
     @Operation(summary = "Удалить ресторан по ID")
-    @DeleteMapping ("/restaurant/{id}")
+    @DeleteMapping("/restaurant/{id}")
     public void deleteOrderItem(@PathVariable Integer id) {
         restaurantService.deleteById(id);
     }

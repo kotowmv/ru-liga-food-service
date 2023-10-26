@@ -19,19 +19,19 @@ public class MenuItemController {
 
     @Operation(summary = "Список объектов в меню ресторана")
     @GetMapping("/menu_items")
-    public List<MenuItemDTO> getMenuItemList(){
-        return menuItemService.dtoList();
+    public List<MenuItemDTO> getMenuItemList() {
+        return menuItemService.getDtoList();
     }
 
     @Operation(summary = "Список объектов в меню ресторана / MyBatis")
     @GetMapping("/menu_items2")
-    public List<MenuItemDTO> menuItemList2(){
-        return menuItemService.dtoList2();
+    public List<MenuItemDTO> menuItemList2() {
+        return menuItemService.getDtoListWithMyBatis();
     }
 
     @Operation(summary = "Получение объекта меню по ID")
     @GetMapping("/menu_item/{id}")
-    public MenuItemDTO getMenuItemById(@PathVariable Integer id){
+    public MenuItemDTO getMenuItemById(@PathVariable Integer id) {
         return menuItemService.getDtoById(id);
     }
 
@@ -42,7 +42,7 @@ public class MenuItemController {
     }
 
     @Operation(summary = "Удалить объект в меню ресторана по ID")
-    @DeleteMapping ("/menu_item/{id}")
+    @DeleteMapping("/menu_item/{id}")
     public void deleteMenuItemById(@PathVariable Integer id) {
         menuItemService.deleteById(id);
     }

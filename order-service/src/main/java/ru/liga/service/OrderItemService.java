@@ -1,6 +1,7 @@
 package ru.liga.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.liga.dto.OrderItemDTO;
 import ru.liga.entities.OrderItem;
@@ -15,7 +16,7 @@ public class OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
 
-    public List<OrderItemDTO> dtoList () {
+    public List<OrderItemDTO> getDtoList() {
         return StreamSupport.stream(orderItemRepository.findAll().spliterator(), false).map(this::orderItemToDTO).collect(Collectors.toList());
     }
 
@@ -24,22 +25,34 @@ public class OrderItemService {
     }
 
     public OrderItem getById(Integer id) {
-        return orderItemRepository.findById(id).orElseThrow(() -> new RuntimeException("Order item with id = " + id + " is not exists"));
+        if (id > 0) {
+            return orderItemRepository.findById(id).orElseThrow(() -> new RuntimeException("Order item with id = " + id + " is not exists"));
+        } else {
+            throw new RuntimeException("Incorrect id");
+        }
     }
 
-    public void convertAndSave (OrderItemDTO orderItemDTO) {
+    public void convertAndSave(OrderItemDTO orderItemDTO) {
         orderItemRepository.save(orderItemToEntity(orderItemDTO));
     }
 
-    public void deleteById (Integer id) {
-        orderItemRepository.deleteById(id);
+    public void deleteById(Integer id) {
+        if (id > 0) {
+            try {
+                orderItemRepository.deleteById(id);
+            } catch (EmptyResultDataAccessException e) {
+                throw new RuntimeException("Order item with id = " + id + " is not exists");
+            }
+        } else {
+            throw new RuntimeException("Incorrect id");
+        }
     }
 
-    public OrderItemDTO orderItemToDTO (OrderItem item) {
+    public OrderItemDTO orderItemToDTO(OrderItem item) {
         return new OrderItemDTO(item.getId(), item.getMenuItemId(), item.getMenuItemId(), item.getPrice(), item.getQuantity());
     }
 
-    public OrderItem orderItemToEntity (OrderItemDTO itemDTO) {
+    public OrderItem orderItemToEntity(OrderItemDTO itemDTO) {
         return new OrderItem(itemDTO.getOrderId(), itemDTO.getMenuItemId(), itemDTO.getPrice(), itemDTO.getQuantity());
     }
 }

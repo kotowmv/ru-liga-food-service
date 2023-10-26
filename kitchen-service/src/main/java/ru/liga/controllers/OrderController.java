@@ -19,26 +19,26 @@ public class OrderController {
 
     @Operation(summary = "Список заказов")
     @GetMapping("/orders")
-    public List<OrderDTO> orderList(){
-        return orderService.dtoList();
+    public List<OrderDTO> orderList() {
+        return orderService.getDtoList();
     }
 
     @Operation(summary = "Список заказов / MyBatis")
     @GetMapping("/orders2")
-    public List<OrderDTO> orderList2(){
-        return orderService.dtoList2();
+    public List<OrderDTO> orderList2() {
+        return orderService.getDtoListWithMyBatis();
     }
 
     @Operation(summary = "Получение заказа по ID")
     @GetMapping("/order/{id}")
-    public OrderDTO getOrderById(@PathVariable Integer id){
+    public OrderDTO getOrderById(@PathVariable Integer id) {
         return orderService.getDtoById(id);
     }
 
     @Operation(summary = "Получение заказа по ID / MyBatis")
     @GetMapping("/order2/{id}")
-    public OrderDTO getOrderById2(@PathVariable Integer id){
-        return orderService.getDtoById2(id);
+    public OrderDTO getOrderById2(@PathVariable Integer id) {
+        return orderService.getDtoByIdWithMyBatis(id);
     }
 
     @Operation(summary = "Обновить статус заказа по ID")

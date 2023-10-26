@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class ProducerService implements RabbitMQProducerService{
+public class ProducerService implements RabbitMQProducerService {
 
     private final RabbitTemplate template;
 

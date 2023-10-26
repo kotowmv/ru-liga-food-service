@@ -19,43 +19,43 @@ public class OrderController {
 
     @Operation(summary = "Список заказов")
     @GetMapping("/orders")
-    public List<OrderDTO> orderList(){
-        return orderService.dtoList();
+    public List<OrderDTO> getOrderList() {
+        return orderService.getDtoList();
     }
 
     @Operation(summary = "Получение заказа по ID")
     @GetMapping("/order/{id}")
-    public OrderDTO getOrderById(@PathVariable Integer id){
+    public OrderDTO getOrderById(@PathVariable Integer id) {
         return orderService.getDtoById(id);
     }
 
     @Operation(summary = "Обновить статус заказа по ID")
     @PatchMapping("/order/{id}")
-    public void updateOrderStatusById(@PathVariable Integer id, OrderStatus status){
+    public void updateOrderStatusById(@PathVariable Integer id, OrderStatus status) {
         orderService.updateStatusById(id, status);
     }
 
     @Operation(summary = "Принять заказ по ID")
     @PostMapping("/order/accept/{id}")
-    public void acceptOrderById(@PathVariable Integer id){
+    public void acceptOrderById(@PathVariable Integer id) {
         orderService.acceptById(id);
     }
 
     @Operation(summary = "Отклонить заказ по ID")
     @PostMapping("/order/reject/{id}")
-    public void rejectOrderById(@PathVariable Integer id){
+    public void rejectOrderById(@PathVariable Integer id) {
         orderService.rejectById(id);
     }
 
     @Operation(summary = "Список текущих заказов")
     @GetMapping("/current_orders")
-    public List<OrderDTO> currentOrderList(){
+    public List<OrderDTO> getCurrentOrderList() {
         return orderService.getAllCurrentOrdersDtoList();
     }
 
     @Operation(summary = "Количество текущих заказов")
     @GetMapping("/current_orders/count")
-    public Integer currentOrderCount(){
+    public Integer getCurrentOrderCount() {
         return orderService.getCountOfCurrentOrders();
     }
 }

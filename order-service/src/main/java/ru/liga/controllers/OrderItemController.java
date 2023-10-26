@@ -18,24 +18,24 @@ public class OrderItemController {
 
     @Operation(summary = "Список позиций в заказе")
     @GetMapping("/order_items")
-    public List<OrderItemDTO> orderItemList(){
-        return orderItemService.dtoList();
+    public List<OrderItemDTO> orderItemList() {
+        return orderItemService.getDtoList();
     }
 
     @Operation(summary = "Получение позиции заказа по ID")
     @GetMapping("/order_item/{id}")
-    public OrderItemDTO getOrderItemById(@PathVariable Integer id){
+    public OrderItemDTO getOrderItemById(@PathVariable Integer id) {
         return orderItemService.getDtoById(id);
     }
 
     @Operation(summary = "Добавить позицию в заказ")
     @PostMapping("/order_item")
-    public void addOrderItem(@RequestBody OrderItemDTO itemDTO){
+    public void addOrderItem(@RequestBody OrderItemDTO itemDTO) {
         orderItemService.convertAndSave(itemDTO);
     }
 
     @Operation(summary = "Удалить позицию в заказе по ID")
-    @DeleteMapping ("/order_item/{id}")
+    @DeleteMapping("/order_item/{id}")
     public void deleteOrderItem(@PathVariable Integer id) {
         orderItemService.deleteById(id);
     }

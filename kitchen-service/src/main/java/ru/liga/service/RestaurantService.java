@@ -1,6 +1,7 @@
 package ru.liga.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.liga.dto.RestaurantDTO;
 import ru.liga.entities.Restaurant;
@@ -15,8 +16,8 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
 
-    public List<RestaurantDTO> dtoList(){
-        return StreamSupport.stream(restaurantRepository.findAll().spliterator(),false).map(this::restaurantToDTO).collect(Collectors.toList());
+    public List<RestaurantDTO> getDtoList() {
+        return StreamSupport.stream(restaurantRepository.findAll().spliterator(), false).map(this::restaurantToDTO).collect(Collectors.toList());
     }
 
     public RestaurantDTO getDtoById(Integer id) {
@@ -24,22 +25,34 @@ public class RestaurantService {
     }
 
     public Restaurant getById(Integer id) {
-        return restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant with id = " + id + " is not exists"));
+        if (id > 0) {
+            return restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant with id = " + id + " is not exists"));
+        } else {
+            throw new RuntimeException("Incorrect id");
+        }
     }
 
-    public void convertAndSave (RestaurantDTO restaurantDTO) {
+    public void convertAndSave(RestaurantDTO restaurantDTO) {
         restaurantRepository.save(restaurantToEntity(restaurantDTO));
     }
 
     public void deleteById(Integer id) {
-        restaurantRepository.deleteById(id);
+        if (id > 0) {
+            try {
+                restaurantRepository.deleteById(id);
+            } catch (EmptyResultDataAccessException e) {
+                throw new RuntimeException("Restaurant with id = " + id + " is not exists");
+            }
+        } else {
+            throw new RuntimeException("Incorrect id");
+        }
     }
 
-    public RestaurantDTO restaurantToDTO (Restaurant restaurant) {
+    public RestaurantDTO restaurantToDTO(Restaurant restaurant) {
         return new RestaurantDTO(restaurant.getId(), restaurant.getAddress(), restaurant.getStatus());
     }
 
-    public Restaurant restaurantToEntity (RestaurantDTO restaurantDTO) {
+    public Restaurant restaurantToEntity(RestaurantDTO restaurantDTO) {
         return new Restaurant(restaurantDTO.getAddress(), restaurantDTO.getStatus());
     }
 }

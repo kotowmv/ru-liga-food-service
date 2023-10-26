@@ -24,7 +24,7 @@ public class OrderService {
 
     private final Deque<Order> currentOrders = new ArrayDeque<>();
 
-    public List<OrderDTO> dtoList() {
+    public List<OrderDTO> getDtoList() {
         return StreamSupport.stream(orderRepository.findAll().spliterator(), false).map(this::orderToDTO).collect(Collectors.toList());
     }
 
@@ -33,7 +33,11 @@ public class OrderService {
     }
 
     public Order getById(Integer id) {
-        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order with id = " + id + " is not exists"));
+        if (id > 0) {
+            return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order with id = " + id + " is not exists"));
+        } else {
+            throw new RuntimeException("Incorrect id");
+        }
     }
 
     public void updateStatusById(Integer id, OrderStatus status) {
@@ -52,19 +56,19 @@ public class OrderService {
         return new OrderDTO(order.getId(), order.getCustomerId(), order.getRestaurantId(), order.getStatus(), order.getCourierId(), order.getTimestamp());
     }
 
-    public void addToCurrentOrders(Order order){
+    public void addToCurrentOrders(Order order) {
         currentOrders.add(order);
     }
 
-    public List<Order> getAllCurrentOrders(){
+    public List<Order> getAllCurrentOrders() {
         return new ArrayList<>(currentOrders);
     }
 
-    public List<OrderDTO> getAllCurrentOrdersDtoList(){
+    public List<OrderDTO> getAllCurrentOrdersDtoList() {
         return getAllCurrentOrders().stream().map(this::orderToDTO).collect(Collectors.toList());
     }
 
-    public Integer getCountOfCurrentOrders(){
+    public Integer getCountOfCurrentOrders() {
         return currentOrders.size();
     }
 }
