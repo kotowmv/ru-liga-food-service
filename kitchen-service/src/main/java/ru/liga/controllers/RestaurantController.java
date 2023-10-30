@@ -39,4 +39,9 @@ public class RestaurantController {
     public void deleteOrderItem(@PathVariable Integer id) {
         restaurantService.deleteById(id);
     }
+
+    @GetMapping("/test")
+    public String message() {
+        return "Kitchen service is working successfully";
+    }
 }

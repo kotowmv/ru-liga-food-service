@@ -24,6 +24,7 @@
 		<module>delivery-service</module>
 		<module>dependency-bom</module>
 		<module>migration</module>
+		<module>auth-service</module>
+		<module>gateway-service</module>
 	</modules>
-
 </project>

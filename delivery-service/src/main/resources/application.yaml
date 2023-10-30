@@ -8,7 +8,7 @@ management:
       show-details: ALWAYS
 
 server:
-  port: 8080
+  port: 8081
 
 spring:
   jpa:
@@ -29,6 +29,11 @@ spring:
     password: 'admin'
     url: jdbc:postgresql://localhost:5432/postgres
     driver-class-name: org.postgresql.Driver
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8090
 
 logging:
   pattern:
@@ -39,4 +44,4 @@ feign:
     enabled: true
   client:
     config:
-      kitchenService.url: http://localhost:8081/
+      kitchenService.url: http://localhost:8082/

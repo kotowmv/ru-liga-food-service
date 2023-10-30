@@ -39,4 +39,9 @@ public class CourierController {
     public void deleteCourierById(@PathVariable Integer id) {
         courierService.deleteById(id);
     }
+
+    @GetMapping("/test")
+    public String message() {
+        return "Delivery service is working successfully";
+    }
 }

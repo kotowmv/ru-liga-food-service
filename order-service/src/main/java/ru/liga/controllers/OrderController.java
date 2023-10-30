@@ -46,4 +46,9 @@ public class OrderController {
     public void updateOrderStatusById(@PathVariable Integer id, @RequestBody OrderStatus status) {
         orderService.updateStatusById(id, status);
     }
+
+    @GetMapping("/test")
+    public String message() {
+        return "Order service is working successfully";
+    }
 }

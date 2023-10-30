@@ -33,6 +33,9 @@
         <log4j.version>2.20.0</log4j.version>
         <cloud-openfeign.version>3.1.8</cloud-openfeign.version>
         <feign-core.version>11.10</feign-core.version>
+        <spring-session.version>2.7.4</spring-session.version>
+        <oauth2.version>0.3.0</oauth2.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -119,6 +122,28 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-amqp</artifactId>
                 <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.session</groupId>
+                <artifactId>spring-session-core</artifactId>
+                <version>${spring-session.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-authorization-server</artifactId>
+                <version>${oauth2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
