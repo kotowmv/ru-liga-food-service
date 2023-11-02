@@ -1,7 +1,6 @@
 package ru.liga.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.liga.dto.CourierDTO;
 import ru.liga.entities.Courier;
@@ -25,11 +24,7 @@ public class CourierService {
     }
 
     public Courier getById(Integer id) {
-        if (id > 0) {
-            return courierRepository.findById(id).orElseThrow(() -> new RuntimeException("Courier with id = " + id + " is not exists"));
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        return courierRepository.findById(id).orElseThrow(() -> new RuntimeException("Courier with id = " + id + " is not exists"));
     }
 
     public void convertAndSave(CourierDTO courierDTO) {
@@ -37,15 +32,7 @@ public class CourierService {
     }
 
     public void deleteById(Integer id) {
-        if (id > 0) {
-            try {
-                courierRepository.deleteById(id);
-            } catch (EmptyResultDataAccessException e) {
-                throw new RuntimeException("Courier with id = " + id + " is not exists");
-            }
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        courierRepository.deleteById(id);
     }
 
     public CourierDTO courierToDTO(Courier courier) {

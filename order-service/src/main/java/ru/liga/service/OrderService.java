@@ -1,14 +1,12 @@
 package ru.liga.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.liga.dto.OrderDTO;
 import ru.liga.entities.Order;
 import ru.liga.entities.OrderStatus;
 import ru.liga.repositories.OrderRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -27,11 +25,7 @@ public class OrderService {
     }
 
     public Order getById(Integer id) {
-        if (id > 0) {
-            return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order with id = " + id + " is not exists"));
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order with id = " + id + " is not exists"));
     }
 
     public void convertAndSave(OrderDTO orderDTO) {
@@ -39,28 +33,11 @@ public class OrderService {
     }
 
     public void deleteById(Integer id) {
-        if (id > 0) {
-            try {
-                orderRepository.deleteById(id);
-            } catch (EmptyResultDataAccessException e) {
-                throw new RuntimeException("Order with id = " + id + " is not exists");
-            }
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        orderRepository.deleteById(id);
     }
 
     public void updateStatusById(Integer id, OrderStatus status) {
-        if (id > 0) {
-            Optional<Order> row = orderRepository.findById(id);
-            if (row.isPresent()) {
-                Order order = row.get();
-                order.setStatus(status);
-                orderRepository.save(order);
-            }
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        orderRepository.updateOrderStatusById(id, status);
     }
 
     public OrderDTO orderToDTO(Order order) {

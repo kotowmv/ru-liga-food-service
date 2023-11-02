@@ -8,24 +8,26 @@ spring:
         - id: delivery-service
           uri: http://localhost:8081/
           predicates:
-            - Path=/deliveryservice/**
+            - Path=/delivery-service/**
           filters:
             - TokenRelay=
             - RemoveRequestHeader=Cookie
+            - RewritePath=/delivery-service/(?<path>.*), /$\{path}
         - id: kitchen-service
           uri: http://localhost:8082/
           predicates:
-            - Path=/kitchenservice/**
+            - Path=/kitchen-service/**
           filters:
             - TokenRelay=
             - RemoveRequestHeader=Cookie
+            - RewritePath=/kitchen-service/(?<path>.*), /$\{path}
         - id: order-service
           uri: http://localhost:8083/
           predicates:
-            - Path=/orderservice/**
+            - Path=/order-service/**
           filters:
             - TokenRelay=
-            - RemoveRequestHeader=Cookie
+            - RewritePath=/order-service/(?<path>.*), /$\{path}
 
   security:
     oauth2:

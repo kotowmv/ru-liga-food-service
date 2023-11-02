@@ -1,7 +1,6 @@
 package ru.liga.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.liga.dto.CustomerDTO;
 import ru.liga.entities.Customer;
@@ -25,11 +24,7 @@ public class CustomerService {
     }
 
     public Customer getById(Integer id) {
-        if (id > 0) {
-            return customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer with id = " + id + " is not exists"));
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        return customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer with id = " + id + " is not exists"));
     }
 
     public void convertAndSave(CustomerDTO customerDTO) {
@@ -37,15 +32,7 @@ public class CustomerService {
     }
 
     public void deleteById(Integer id) {
-        if (id > 0) {
-            try {
-                customerRepository.deleteById(id);
-            } catch (EmptyResultDataAccessException e) {
-                throw new RuntimeException("Customer with id = " + id + " is not exists");
-            }
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        customerRepository.deleteById(id);
     }
 
     public CustomerDTO customerToDTO(Customer customer) {

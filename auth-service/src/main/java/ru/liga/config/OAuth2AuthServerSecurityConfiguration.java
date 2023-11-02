@@ -57,6 +57,7 @@ public class OAuth2AuthServerSecurityConfiguration {
         http
                 .csrf().disable().authorizeHttpRequests()
                 .antMatchers("/register").permitAll()
+                .antMatchers("/error").permitAll()
                 .and()
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());

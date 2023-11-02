@@ -1,7 +1,6 @@
 package ru.liga.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.liga.dto.OrderItemDTO;
 import ru.liga.entities.OrderItem;
@@ -25,11 +24,7 @@ public class OrderItemService {
     }
 
     public OrderItem getById(Integer id) {
-        if (id > 0) {
-            return orderItemRepository.findById(id).orElseThrow(() -> new RuntimeException("Order item with id = " + id + " is not exists"));
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        return orderItemRepository.findById(id).orElseThrow(() -> new RuntimeException("Order item with id = " + id + " is not exists"));
     }
 
     public void convertAndSave(OrderItemDTO orderItemDTO) {
@@ -37,15 +32,7 @@ public class OrderItemService {
     }
 
     public void deleteById(Integer id) {
-        if (id > 0) {
-            try {
-                orderItemRepository.deleteById(id);
-            } catch (EmptyResultDataAccessException e) {
-                throw new RuntimeException("Order item with id = " + id + " is not exists");
-            }
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        orderItemRepository.deleteById(id);
     }
 
     public OrderItemDTO orderItemToDTO(OrderItem item) {

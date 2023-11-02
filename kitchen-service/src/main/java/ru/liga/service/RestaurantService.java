@@ -1,7 +1,6 @@
 package ru.liga.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.liga.dto.RestaurantDTO;
 import ru.liga.entities.Restaurant;
@@ -25,11 +24,7 @@ public class RestaurantService {
     }
 
     public Restaurant getById(Integer id) {
-        if (id > 0) {
-            return restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant with id = " + id + " is not exists"));
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        return restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant with id = " + id + " is not exists"));
     }
 
     public void convertAndSave(RestaurantDTO restaurantDTO) {
@@ -37,15 +32,7 @@ public class RestaurantService {
     }
 
     public void deleteById(Integer id) {
-        if (id > 0) {
-            try {
-                restaurantRepository.deleteById(id);
-            } catch (EmptyResultDataAccessException e) {
-                throw new RuntimeException("Restaurant with id = " + id + " is not exists");
-            }
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        restaurantRepository.deleteById(id);
     }
 
     public RestaurantDTO restaurantToDTO(Restaurant restaurant) {

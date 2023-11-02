@@ -1,14 +1,12 @@
 package ru.liga.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.liga.batisMapper.MenuItemMapper;
 import ru.liga.dto.MenuItemDTO;
 import ru.liga.entities.MenuItem;
 import ru.liga.repositories.MenuItemRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -33,11 +31,7 @@ public class MenuItemService {
     }
 
     public MenuItem getById(Integer id) {
-        if (id > 0) {
-            return menuItemRepository.findById(id).orElseThrow(() -> new RuntimeException("Menu item with id = " + id + " is not exists"));
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        return menuItemRepository.findById(id).orElseThrow(() -> new RuntimeException("Menu item with id = " + id + " is not exists"));
     }
 
     public void convertAndSave(MenuItemDTO itemDTO) {
@@ -45,30 +39,11 @@ public class MenuItemService {
     }
 
     public void deleteById(Integer id) {
-        if (id > 0) {
-            try {
-                menuItemRepository.deleteById(id);
-            } catch (EmptyResultDataAccessException e) {
-                throw new RuntimeException("Courier with id = " + id + " is not exists");
-            }
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        menuItemRepository.deleteById(id);
     }
 
     public void updatePriceById(Integer id, Double price) {
-        if (id > 0) {
-            Optional<MenuItem> row = menuItemRepository.findById(id);
-            if (row.isPresent()) {
-                MenuItem item = row.get();
-                item.setPrice(price);
-                menuItemRepository.save(item);
-            } else {
-                throw new RuntimeException("Menu item with id = " + id + " is not exists");
-            }
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        menuItemRepository.updateMenuItemPriceById(id, price);
     }
 
     public MenuItemDTO menuItemToDTO(MenuItem item) {

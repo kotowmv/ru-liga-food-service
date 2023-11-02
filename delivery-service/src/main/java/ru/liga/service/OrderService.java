@@ -33,11 +33,7 @@ public class OrderService {
     }
 
     public Order getById(Integer id) {
-        if (id > 0) {
-            return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order with id = " + id + " is not exists"));
-        } else {
-            throw new RuntimeException("Incorrect id");
-        }
+        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order with id = " + id + " is not exists"));
     }
 
     public void updateStatusById(Integer id, OrderStatus status) {

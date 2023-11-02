@@ -9,6 +9,7 @@ management:
 
 server:
   port: 8083
+  forward-headers-strategy: framework
 
 spring:
   jpa:
