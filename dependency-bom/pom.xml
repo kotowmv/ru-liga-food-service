@@ -36,6 +36,7 @@
         <spring-session.version>2.7.4</spring-session.version>
         <oauth2.version>0.3.0</oauth2.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <h2database.version>2.2.224</h2database.version>
     </properties>
 
     <dependencyManagement>
@@ -144,6 +145,12 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2database.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

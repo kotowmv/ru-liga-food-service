@@ -1,6 +1,7 @@
 package ru.liga.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationConverter;
@@ -10,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class UserAuthenticationConverter implements AuthenticationConverter {
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+
+    private final ObjectMapper MAPPER;
 
     @Override
     public Authentication convert(HttpServletRequest request) {

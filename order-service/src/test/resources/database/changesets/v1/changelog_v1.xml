@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- LOCAL CHANGELOG v1  -->
+    <changeSet id="v1 2023-14-11 19:00:00" author="kotowmv">
+
+        <sqlFile path="update/couriers_v1.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="update/customers_v1.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="update/restaurants_v1.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="update/orders_v1.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="update/menu_items_v1.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="update/order_items_v1.sql" relativeToChangelogFile="true"/>
+
+        <rollback>
+            <sqlFile path="rollback/rollback_v1.sql" relativeToChangelogFile="true"/>
+        </rollback>
+
+    </changeSet>
+
+</databaseChangeLog>

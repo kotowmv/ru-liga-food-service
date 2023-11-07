@@ -39,3 +39,7 @@ spring:
 logging:
   pattern:
     console: '%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n'
+  level:
+    root: warn
+    org.springframework.web: debug
+    ru.liga: debug
