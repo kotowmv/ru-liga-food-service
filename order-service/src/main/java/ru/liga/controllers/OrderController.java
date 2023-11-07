@@ -1,6 +1,8 @@
 package ru.liga.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,38 +19,55 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @Operation(summary = "Список заказов")
+    @Operation(summary = "Получить список заказов", description = "Получить список всех существующих заказов")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Данные получены"),
+            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
+            @ApiResponse(responseCode = "404", description = "Данные не найдены")
+    })
     @GetMapping("/orders")
     public List<OrderDTO> orderList() {
         return orderService.getDtoList();
     }
 
-    @Operation(summary = "Получение заказа по ID")
+    @Operation(summary = "Получить заказ по ID", description = "Получить один заказ по его идентификатору")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Данные получены"),
+            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
+            @ApiResponse(responseCode = "404", description = "Данные не найдены")
+    })
     @GetMapping("/order/{id}")
     public OrderDTO getOrderById(@PathVariable Integer id) {
         return orderService.getDtoById(id);
     }
 
-    @Operation(summary = "Добавить новый заказ")
+    @Operation(summary = "Добавить заказ", description = "Добавить новый заказ в систему")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Данные добавлены"),
+            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
+    })
     @PostMapping("/order")
     public void addOrder(@RequestBody OrderDTO orderDTO) {
         orderService.convertAndSave(orderDTO);
     }
 
-    @Operation(summary = "Удалить заказ по ID")
+    @Operation(summary = "Удалить заказ по ID", description = "Удалить существующий заказ по его идентификатору")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Данные удалены"),
+            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
+    })
     @DeleteMapping("/order/{id}")
     public void deleteOrder(@PathVariable Integer id) {
         orderService.deleteById(id);
     }
 
-    @Operation(summary = "Обновить статус заказа по ID")
+    @Operation(summary = "Обновить статус заказа по ID", description = "Обновить статус существующего заказа по идентификатору")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Данные обновлены"),
+            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
+    })
     @PatchMapping("/order/{id}")
     public void updateOrderStatusById(@PathVariable Integer id, @RequestBody OrderStatus status) {
         orderService.updateStatusById(id, status);
-    }
-
-    @GetMapping("/test")
-    public String message() {
-        return "Order service is working successfully";
     }
 }

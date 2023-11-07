@@ -27,6 +27,7 @@ spring:
             - Path=/order-service/**
           filters:
             - TokenRelay=
+            - RemoveRequestHeader=Cookie
             - RewritePath=/order-service/(?<path>.*), /$\{path}
 
   security:
