@@ -35,12 +35,6 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8090
-
-logging:
-  pattern:
-    console: '%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n'
-
-mybatis:
-  config-location: classpath:mybatis-config.xml
-
+  liquibase:
+    enabled: false
 

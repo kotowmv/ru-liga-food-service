@@ -10,6 +10,7 @@ import ru.liga.dto.OrderDTO;
 import ru.liga.entities.OrderStatus;
 import ru.liga.service.OrderService;
 import java.util.List;
+import java.util.UUID;
 
 @Tag(name = "Delivery service / API для работы с заказами")
 @RestController
@@ -30,6 +31,17 @@ public class OrderController {
         return orderService.getDtoList();
     }
 
+    @Operation(summary = "Получить список активных заказов", description = "Получить список всех существующих заказов со статусом \"KITCHEN_PREPARED\"")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Данные получены"),
+            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
+            @ApiResponse(responseCode = "404", description = "Данные не найдены")
+    })
+    @GetMapping("/orders/active")
+    public List<OrderDTO> getActiveOrderList() {
+        return orderService.getActiveDtoList();
+    }
+
     @Operation(summary = "Получить заказ по ID", description = "Получить один заказ по его идентификатору")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Данные получены"),
@@ -37,7 +49,7 @@ public class OrderController {
             @ApiResponse(responseCode = "404", description = "Данные не найдены")
     })
     @GetMapping("/order/{id}")
-    public OrderDTO getOrderById(@PathVariable Integer id) {
+    public OrderDTO getOrderById(@PathVariable UUID id) {
         return orderService.getDtoById(id);
     }
 
@@ -46,9 +58,19 @@ public class OrderController {
             @ApiResponse(responseCode = "200", description = "Данные обновлены"),
             @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
     })
-    @PatchMapping("/order/{id}")
-    public void updateOrderStatusById(@PathVariable Integer id, OrderStatus status) {
+    @PatchMapping("/order/status/{id}")
+    public void updateOrderStatusById(@PathVariable UUID id, @RequestBody OrderStatus status) {
         orderService.updateStatusById(id, status);
+    }
+
+    @Operation(summary = "Назначить курьера для заказа по ID", description = "Назначить курьера для существующего заказа по идентификатору")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Данные обновлены"),
+            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
+    })
+    @PatchMapping("/order/courier/{id}")
+    public void setCourierToOrderById(@PathVariable UUID id, @RequestBody Integer courierId) {
+        orderService.setCourierToOrder(id, courierId);
     }
 
     @Operation(summary = "Принять заказ по ID", description = "Установить статус существующего заказа в \"DELIVERY_PICKING\" по идентификатору")
@@ -57,7 +79,7 @@ public class OrderController {
             @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
     })
     @PostMapping("/order/accept/{id}")
-    public void acceptOrderById(@PathVariable Integer id) {
+    public void acceptOrderById(@PathVariable UUID id) {
         orderService.acceptById(id);
     }
 
@@ -67,29 +89,27 @@ public class OrderController {
             @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
     })
     @PostMapping("/order/reject/{id}")
-    public void rejectOrderById(@PathVariable Integer id) {
+    public void rejectOrderById(@PathVariable UUID id) {
         orderService.rejectById(id);
     }
 
-    @Operation(summary = "Список текущих заказов", description = "Получить список всех существующих заказов со статусами \"DELIVERY_PENDING\", \"DELIVERY_PICKING\", \"DELIVERY_DELIVERING\"")
-    @GetMapping("/current_orders")
+    @Operation(summary = "Сообщить о получении заказа курьером из ресторана по ID", description = "Установить статус существующего заказа в \"DELIVERY_DELIVERING\" по идентификатору")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Данные получены"),
+            @ApiResponse(responseCode = "200", description = "Данные обновлены"),
             @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
-            @ApiResponse(responseCode = "404", description = "Данные не найдены")
     })
-    public List<OrderDTO> getCurrentOrderList() {
-        return orderService.getAllCurrentOrdersDtoList();
+    @PostMapping("/order/receive/{id}")
+    public void receiveOrderById(@PathVariable UUID id) {
+        orderService.receiveById(id);
     }
 
-    @Operation(summary = "Получить количество текущих заказов", description = "Получить количество всех существующих заказов со статусами \"DELIVERY_PENDING\", \"DELIVERY_PICKING\", \"DELIVERY_DELIVERING\"")
+    @Operation(summary = "Завершить доставку заказа по ID", description = "Установить статус существующего заказа в \"DELIVERY_COMPLETE\" по идентификатору")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Данные получены"),
+            @ApiResponse(responseCode = "200", description = "Данные обновлены"),
             @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
-            @ApiResponse(responseCode = "404", description = "Данные не найдены")
     })
-    @GetMapping("/current_orders/count")
-    public Integer getCurrentOrderCount() {
-        return orderService.getCountOfCurrentOrders();
+    @PostMapping("/order/complete/{id}")
+    public void completeOrderById(@PathVariable UUID id) {
+        orderService.completeById(id);
     }
 }

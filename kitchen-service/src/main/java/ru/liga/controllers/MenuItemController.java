@@ -30,17 +30,6 @@ public class MenuItemController {
         return menuItemService.getDtoList();
     }
 
-    @Operation(summary = "Получить список позиций меню / MyBatis", description = "Получить список всех существующих позиций в меню ресторана (для проверки работоспособности MyBatis)")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Данные получены"),
-            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
-            @ApiResponse(responseCode = "404", description = "Данные не найдены")
-    })
-    @GetMapping("/menu_items2")
-    public List<MenuItemDTO> menuItemList2() {
-        return menuItemService.getDtoListWithMyBatis();
-    }
-
     @Operation(summary = "Получить позицию меню по ID", description = "Получить одну позицию меню по ее идентификатору")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Данные получены"),

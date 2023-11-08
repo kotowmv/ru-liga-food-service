@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -13,8 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private UUID id;
 
     @Column(name = "customer_id")
     private Integer customerId;
@@ -32,4 +32,13 @@ public class Order {
     private Integer courierId;
 
     private LocalDateTime timestamp;
+
+    public Order(UUID id, Integer customerId, Integer restaurantId, OrderStatus status, Integer courierId, LocalDateTime timestamp) {
+        this.id = id;
+        this.customerId = customerId;
+        this.restaurantId = restaurantId;
+        this.status = status;
+        this.courierId = courierId;
+        this.timestamp = timestamp;
+    }
 }

@@ -36,7 +36,7 @@ public class OrderItemService {
     }
 
     public OrderItemDTO orderItemToDTO(OrderItem item) {
-        return new OrderItemDTO(item.getId(), item.getMenuItemId(), item.getMenuItemId(), item.getPrice(), item.getQuantity());
+        return new OrderItemDTO(item.getId(), item.getOrderId(), item.getMenuItemId(), item.getPrice(), item.getQuantity());
     }
 
     public OrderItem orderItemToEntity(OrderItemDTO itemDTO) {

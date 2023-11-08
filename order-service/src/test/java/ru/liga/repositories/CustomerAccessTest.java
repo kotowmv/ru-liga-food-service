@@ -1,7 +1,6 @@
 package ru.liga.repositories;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.liga.entities.Customer;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @SpringBootTest
 class CustomerAccessTest {
 
     @Autowired
     CustomerRepository customerRepository;
-
-    Logger logger = LogManager.getLogger(CustomerAccessTest.class);
 
     @Test
     public void whenGetExistsCustomerByIdFromRepositoryThenReturnEntity() {
@@ -23,10 +21,10 @@ class CustomerAccessTest {
             Customer customer = customerRepository.findById(1).orElseThrow(NoSuchElementException::new);
             Assertions.assertEquals("test1@mail.com", customer.getEmail());
         } catch (NoSuchElementException e) {
-            logger.error("No customer found");
+            log.error("No customer found");
             Assertions.fail();
         } catch (NullPointerException e) {
-            logger.error("Repository access error");
+            log.error("Repository access error");
             Assertions.fail();
         }
     }
@@ -38,12 +36,12 @@ class CustomerAccessTest {
             customerRepository.save(newCustomer);
             Customer customer = customerRepository.findById(4).orElseThrow(NoSuchElementException::new);
             Assertions.assertEquals("accesstest@mail.com", customer.getEmail());
-            logger.info("Customer success add and get from repository");
+            log.info("Customer success add and get from repository");
         } catch (NoSuchElementException e) {
-            logger.error("No customer found");
+            log.error("No customer found");
             Assertions.fail();
         } catch (NullPointerException e) {
-            logger.error("Repository access error");
+            log.error("Repository access error");
             Assertions.fail();
         }
     }

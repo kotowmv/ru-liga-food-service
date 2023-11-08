@@ -29,6 +29,17 @@ public class CourierController {
         return courierService.getDtoList();
     }
 
+    @Operation(summary = "Получить список доступных курьеров", description = "Получить список всех существующих курьеров со статусом \"DELIVERY_PENDING\"")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Данные получены"),
+            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
+            @ApiResponse(responseCode = "404", description = "Данные не найдены")
+    })
+    @GetMapping("/couriers/available")
+    public List<CourierDTO> getAvailableCouriersList() {
+        return courierService.getAvailableDtoList();
+    }
+
     @Operation(summary = "Получить курьера по ID", description = "Получить одного курьера по его идентификатору")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Данные получены"),

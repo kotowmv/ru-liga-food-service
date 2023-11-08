@@ -1,10 +1,8 @@
 -- CREATES --
 
-CREATE SEQUENCE orders_id_seq;
-
 CREATE TABLE IF NOT EXISTS orders
 (
-    id integer NOT NULL DEFAULT nextval('orders_id_seq'),
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
     customer_id integer NOT NULL,
     restaurant_id integer NOT NULL,
     status varchar NOT NULL,

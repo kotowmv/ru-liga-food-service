@@ -3,6 +3,7 @@ package ru.liga.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Schema(description = "DTO позиции заказа")
@@ -12,7 +13,7 @@ public class OrderItemDTO {
     private Integer id;
 
     @Schema(description = "Идентификатор заказа")
-    private Integer orderId;
+    private UUID orderId;
 
     @Schema(description = "Идентификатор позиции меню")
     private Integer menuItemId;

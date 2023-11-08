@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.liga.dto.CourierDTO;
 import ru.liga.entities.Courier;
+import ru.liga.entities.CourierStatus;
 import ru.liga.repositories.CourierRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,10 @@ public class CourierService {
 
     public Courier getById(Integer id) {
         return courierRepository.findById(id).orElseThrow(() -> new RuntimeException("Courier with id = " + id + " is not exists"));
+    }
+
+    public List<CourierDTO> getAvailableDtoList() {
+        return StreamSupport.stream(courierRepository.findCouriersByStatus(CourierStatus.PENDING).spliterator(), false).map(this::courierToDTO).collect(Collectors.toList());
     }
 
     public void convertAndSave(CourierDTO courierDTO) {

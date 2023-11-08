@@ -5,7 +5,7 @@ CREATE SEQUENCE order_items_id_seq;
 CREATE TABLE IF NOT EXISTS order_items
 (
     id integer NOT NULL DEFAULT nextval('order_items_id_seq'),
-    order_id integer NOT NULL,
+    order_id uuid NOT NULL,
     menu_item_id integer NOT NULL,
     price double precision NOT NULL,
     quantity integer NOT NULL,

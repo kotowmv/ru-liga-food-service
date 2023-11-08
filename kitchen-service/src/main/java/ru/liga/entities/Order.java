@@ -4,6 +4,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -12,8 +13,7 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private UUID id;
 
     @Column(name = "customer_id")
     private Integer customerId;
@@ -31,4 +31,13 @@ public class Order {
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems;
+
+    public Order(UUID id, Integer customerId, Integer restaurantId, OrderStatus status, Integer courierId, LocalDateTime timestamp) {
+        this.id = id;
+        this.customerId = customerId;
+        this.restaurantId = restaurantId;
+        this.status = status;
+        this.courierId = courierId;
+        this.timestamp = timestamp;
+    }
 }

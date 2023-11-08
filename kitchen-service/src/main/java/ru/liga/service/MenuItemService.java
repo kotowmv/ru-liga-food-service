@@ -2,7 +2,6 @@ package ru.liga.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.liga.batisMapper.MenuItemMapper;
 import ru.liga.dto.MenuItemDTO;
 import ru.liga.entities.MenuItem;
 import ru.liga.repositories.MenuItemRepository;
@@ -16,14 +15,8 @@ public class MenuItemService {
 
     private final MenuItemRepository menuItemRepository;
 
-    private final MenuItemMapper menuItemMapper;
-
     public List<MenuItemDTO> getDtoList() {
         return StreamSupport.stream(menuItemRepository.findAll().spliterator(), false).map(this::menuItemToDTO).collect(Collectors.toList());
-    }
-
-    public List<MenuItemDTO> getDtoListWithMyBatis() {
-        return menuItemMapper.getMenuItems().stream().map(this::menuItemToDTO).collect(Collectors.toList());
     }
 
     public MenuItemDTO getDtoById(Integer id) {

@@ -10,12 +10,12 @@ import ru.liga.entities.RestaurantStatus;
 @Data
 public class
 RestaurantDTO {
-    @Schema(description = "Идентификатор заказа")
+    @Schema(description = "Идентификатор ресторана")
     private Integer id;
 
-    @Schema(description = "Идентификатор заказа")
+    @Schema(description = "Адрес ресторана")
     private String address;
 
-    @Schema(description = "Идентификатор заказа")
+    @Schema(description = "Статус ресторана (открыт/закрыт)")
     private RestaurantStatus status;
 }

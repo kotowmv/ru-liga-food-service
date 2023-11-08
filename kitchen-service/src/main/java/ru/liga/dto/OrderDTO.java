@@ -5,13 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.liga.entities.OrderStatus;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Schema(description = "DTO заказа")
 @Data
 public class OrderDTO {
     @Schema(description = "Идентификатор заказа")
-    private Integer id;
+    private UUID id;
 
     @Schema(description = "Идентификатор клиента")
     private Integer customerId;
